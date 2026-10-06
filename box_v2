@@ -1,0 +1,35 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+class ball {
+private:
+    std::string color;
+
+public:
+    Ball(const std::string& ball_color) : color(ball_color) {}
+
+    std::string get_color() const {
+        return color;
+    }
+};
+class Box {
+private:
+    std::string name;
+    std::vector<Ball*> balls; // вектор указателей на объекты в куче
+
+public:
+    Box(const std::string& box_name) : name(box_name) {}
+
+    ~Box() {
+        for (Ball* ball : balls) {
+            delete ball;
+        }
+        balls.clear();
+    }
+    void add_ball(Ball* ball) {
+        if (ball != nullptr) {
+            balls.push_back(ball);
+        }
+    }
+
