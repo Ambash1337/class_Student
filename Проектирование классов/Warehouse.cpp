@@ -136,3 +136,20 @@ public:
         std::cout << "========================================\n\n";
     }
 };
+bool transfer_item(Warehouse& from, Warehouse& to, const std::string& sku) {
+    Item* item = from.take_item(sku);
+    if (!item) {
+        std::cout << "Перемещение не удалось: товар с артикулом " << sku << " не найден.\n";
+        return false;
+    }
+
+    if (to.add_item(item)) {
+        std::cout << "Успешно перемещен товар [" << sku << "] " << item->get_title() << "\n\n";
+        return true;
+    }
+
+    // Если на целевом складе не хватило места, возвращаем назад
+    from.add_item(item);
+    std::cout << "Откат операции: товар возвращен на исходный склад.\n\n";
+    return false;
+}
